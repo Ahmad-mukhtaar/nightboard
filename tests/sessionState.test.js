@@ -5,7 +5,11 @@ import {
   DEFAULTS,
   PRESTART_SECONDS,
   MODE_SEQUENCE,
-  getProgressSegments
+  getProgressSegments,
+  createInitialSessionState,
+  advanceMode,
+  formatCountdown,
+  buildBoardRows
 } from '../js/sessionState.js';
 
 test('progress segments round down until time has actually elapsed', () => {
@@ -20,4 +24,61 @@ test('session defaults expose the required focus board presets', () => {
   assert.equal(DEFAULTS.longBreakMinutes, 15);
   assert.equal(PRESTART_SECONDS, 5);
   assert.deepEqual(MODE_SEQUENCE, ['focus', 'shortBreak', 'focus', 'shortBreak', 'focus', 'shortBreak', 'focus', 'longBreak']);
+});
+
+test('advanceMode moves from focus into short break until the fourth cycle', () => {
+  const state = createInitialSessionState({
+    focusMinutes: 25,
+    shortBreakMinutes: 5,
+    longBreakMinutes: 15,
+    goal: 'Ship landing page'
+  });
+
+  const afterFirstFocus = advanceMode({
+    ...state,
+    cycleIndex: 0,
+    mode: 'focus',
+    completedFocusSessions: 0
+  }, {
+    focusMinutes: 25,
+    shortBreakMinutes: 5,
+    longBreakMinutes: 15
+  });
+  assert.equal(afterFirstFocus.mode, 'shortBreak');
+
+  const afterFourthFocus = advanceMode({
+    ...state,
+    cycleIndex: 6,
+    mode: 'focus',
+    completedFocusSessions: 3
+  }, {
+    focusMinutes: 25,
+    shortBreakMinutes: 5,
+    longBreakMinutes: 15
+  });
+  assert.equal(afterFourthFocus.mode, 'longBreak');
+});
+
+test('formatCountdown renders MM:SS and pads correctly', () => {
+  assert.equal(formatCountdown(5), '00:05');
+  assert.equal(formatCountdown(65), '01:05');
+  assert.equal(formatCountdown((24 * 60) + 17), '24:17');
+});
+
+test('buildBoardRows returns stable five-row board content', () => {
+  const rows = buildBoardRows({
+    currentTimeLabel: '17:47',
+    modeLabel: 'FOCUS',
+    countdownLabel: '24:17',
+    goalLabel: 'SHIP LANDING PAGE',
+    completedLabel: 'TODAY 03',
+    progressFilled: 8,
+    progressSegments: 20,
+    prestartSeconds: null
+  });
+
+  assert.equal(rows.length, 5);
+  assert.match(rows[0], /17:47/);
+  assert.match(rows[2], /24:17/);
+  assert.match(rows[3], /SHIP LANDING PAGE/);
 });
