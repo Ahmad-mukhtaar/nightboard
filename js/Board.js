@@ -27,6 +27,7 @@ export class Board {
       const charRow = [];
       for (let c = 0; c < this.cols; c++) {
         const tile = new Tile(r, c);
+        tile.el.dataset.row = String(r);
         tile.setChar(' ');
         this.gridEl.appendChild(tile.el);
         row.push(tile);

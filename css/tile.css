@@ -41,6 +41,22 @@
   text-transform: uppercase;
 }
 
+.tile[data-row="0"] .tile-front span,
+.tile[data-row="0"] .tile-back span,
+.tile[data-row="1"] .tile-front span,
+.tile[data-row="1"] .tile-back span,
+.tile[data-row="4"] .tile-front span,
+.tile[data-row="4"] .tile-back span {
+  font-size: calc(var(--tile-size) * 0.28);
+  letter-spacing: 0.04em;
+}
+
+.tile[data-row="2"] .tile-front span,
+.tile[data-row="2"] .tile-back span {
+  font-size: calc(var(--tile-size) * 0.72);
+  letter-spacing: 0.02em;
+}
+
 .tile-back {
   transform: rotateX(180deg);
 }

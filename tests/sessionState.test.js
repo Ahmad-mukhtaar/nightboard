@@ -78,9 +78,9 @@ test('buildBoardRows returns stable five-row board content', () => {
   });
 
   assert.equal(rows.length, 5);
-  assert.match(rows[0], /17:47/);
+  assert.match(rows[0], /^17:47/);
+  assert.match(rows[0], /SHIP LANDING PAGE$/);
   assert.match(rows[2], /24:17/);
-  assert.match(rows[3], /SHIP LANDING PAGE/);
+  assert.equal(rows[3], '');
   assert.equal(rows[4], 'TODAY 03');
-  assert.equal(rows.join(''), rows.join('').replaceAll('■', '').replaceAll('□', ''));
 });

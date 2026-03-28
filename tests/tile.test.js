@@ -52,7 +52,23 @@ test('tile primes the back face with the target character before the flip settle
   tile.setChar(' ');
   tile.scrambleTo('A', 0);
 
-  await new Promise((resolve) => setTimeout(resolve, 260));
+  await new Promise((resolve) => setTimeout(resolve, 20));
 
   assert.equal(tile.backSpan.textContent, 'A');
+});
+
+test('tile does not show random scramble characters before the flap settles', async () => {
+  global.document = {
+    createElement() {
+      return new FakeElement();
+    }
+  };
+
+  const tile = new Tile(0, 0);
+  tile.setChar(' ');
+  tile.scrambleTo('9', 0);
+
+  await new Promise((resolve) => setTimeout(resolve, 90));
+
+  assert.equal(tile.frontSpan.textContent, '');
 });

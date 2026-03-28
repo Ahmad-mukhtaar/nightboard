@@ -1,4 +1,4 @@
-export const GRID_COLS = 22;
+export const GRID_COLS = 24;
 export const GRID_ROWS = 5;
 
 export const FLIP_DURATION = 220;

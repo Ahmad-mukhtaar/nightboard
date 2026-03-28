@@ -1,4 +1,4 @@
-import { CHARSET, FLIP_DURATION } from './constants.js';
+import { FLIP_DURATION } from './constants.js';
 
 export class Tile {
   constructor(row, col) {
@@ -39,44 +39,25 @@ export class Tile {
   scrambleTo(targetChar, delay) {
     if (targetChar === this.currentChar) return;
 
-    // Cancel any in-progress animation
     if (this._scrambleTimer) {
-      clearInterval(this._scrambleTimer);
+      clearTimeout(this._scrambleTimer);
       this._scrambleTimer = null;
     }
     this.isAnimating = true;
 
-    setTimeout(() => {
-      this.el.classList.add('scrambling');
-      let scrambleCount = 0;
-      const maxScrambles = 3 + Math.floor(Math.random() * 2);
-      const scrambleInterval = 55;
+    this._scrambleTimer = setTimeout(() => {
+      this._scrambleTimer = null;
+      this.backSpan.textContent = targetChar === ' ' ? '' : targetChar;
+      this.innerEl.style.setProperty('--flip-duration', `${FLIP_DURATION}ms`);
+      this.innerEl.classList.add('flipping');
 
-      this._scrambleTimer = setInterval(() => {
-        const randChar = CHARSET[Math.floor(Math.random() * CHARSET.length)];
-        this.frontSpan.textContent = randChar === ' ' ? '' : randChar;
-        this.frontSpan.style.opacity = scrambleCount % 2 === 0 ? '0.85' : '1';
-
-        scrambleCount++;
-
-        if (scrambleCount >= maxScrambles) {
-          clearInterval(this._scrambleTimer);
-          this._scrambleTimer = null;
-          this.frontSpan.style.opacity = '';
-          this.backSpan.textContent = targetChar === ' ' ? '' : targetChar;
-          this.innerEl.style.setProperty('--flip-duration', `${FLIP_DURATION}ms`);
-          this.innerEl.classList.add('flipping');
-
-          setTimeout(() => {
-            this.frontSpan.textContent = targetChar === ' ' ? '' : targetChar;
-            this.backSpan.textContent = '';
-            this.innerEl.classList.remove('flipping');
-            this.el.classList.remove('scrambling');
-            this.currentChar = targetChar;
-            this.isAnimating = false;
-          }, FLIP_DURATION);
-        }
-      }, scrambleInterval);
+      setTimeout(() => {
+        this.frontSpan.textContent = targetChar === ' ' ? '' : targetChar;
+        this.backSpan.textContent = '';
+        this.innerEl.classList.remove('flipping');
+        this.currentChar = targetChar;
+        this.isAnimating = false;
+      }, FLIP_DURATION);
     }, delay);
   }
 }
