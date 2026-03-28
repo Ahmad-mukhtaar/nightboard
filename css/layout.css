@@ -189,9 +189,64 @@ body {
 .board-shell {
   display: none;
   flex: 1;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 12px 0 0;
+  gap: 16px;
+  padding: 24px 0 0;
+}
+
+.board-hud {
+  width: min(1280px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #d7d0c3;
+}
+
+.hud-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.hud-row-bottom {
+  opacity: 0.78;
+}
+
+.hud-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.hud-meta-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.hud-label {
+  color: #938979;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hud-value {
+  color: #f5efe3;
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+#hud-goal {
+  max-width: 36ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .board-section {

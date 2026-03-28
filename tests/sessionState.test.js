@@ -65,7 +65,7 @@ test('formatCountdown renders MM:SS and pads correctly', () => {
   assert.equal(formatCountdown((24 * 60) + 17), '24:17');
 });
 
-test('buildBoardRows returns stable five-row board content', () => {
+test('buildBoardRows returns timer-only board content', () => {
   const rows = buildBoardRows({
     currentTimeLabel: '17:47',
     modeLabel: 'FOCUS',
@@ -78,10 +78,9 @@ test('buildBoardRows returns stable five-row board content', () => {
   });
 
   assert.equal(rows.length, 5);
-  assert.match(rows[0], /^17:47/);
-  assert.match(rows[0], /SHIP LANDING PAGE$/);
+  assert.equal(rows[0], '');
   assert.equal(rows[1], '');
   assert.match(rows[2], /24:17/);
-  assert.equal(rows[3], 'FOCUS');
-  assert.equal(rows[4], 'TODAY 03');
+  assert.equal(rows[3], '');
+  assert.equal(rows[4], '');
 });

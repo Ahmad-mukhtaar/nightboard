@@ -4,7 +4,6 @@ import {
   MODE_SEQUENCE,
   PROGRESS_SEGMENTS
 } from './sessionDefaults.js';
-import { GRID_COLS } from './constants.js';
 
 export {
   DEFAULTS,
@@ -70,11 +69,7 @@ export function advanceMode(state, settings = DEFAULTS) {
 }
 
 export function buildBoardRows({
-  currentTimeLabel,
-  modeLabel,
   countdownLabel,
-  goalLabel,
-  completedLabel,
   prestartSeconds
 }) {
   const timerLine = prestartSeconds == null
@@ -82,24 +77,10 @@ export function buildBoardRows({
     : `STARTING IN ${prestartSeconds}`;
 
   return [
-    formatEdgeAlignedRow(currentTimeLabel, goalLabel),
+    '',
     '',
     timerLine,
-    modeLabel,
-    completedLabel
+    '',
+    ''
   ];
-}
-
-function formatEdgeAlignedRow(leftText, rightText, width = GRID_COLS) {
-  const left = (leftText || '').slice(0, width).trim();
-  const right = (rightText || '').slice(0, width).trim();
-
-  if (!right) {
-    return left;
-  }
-
-  const maxRightLength = Math.max(0, width - left.length - 1);
-  const fittedRight = right.slice(0, maxRightLength);
-  const spacing = Math.max(1, width - left.length - fittedRight.length);
-  return `${left}${' '.repeat(spacing)}${fittedRight}`.slice(0, width);
 }

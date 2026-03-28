@@ -6,6 +6,10 @@ import { PomodoroController } from './PomodoroController.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const boardContainer = document.getElementById('board-container');
+  const hudTime = document.getElementById('hud-time');
+  const hudGoal = document.getElementById('hud-goal');
+  const hudMode = document.getElementById('hud-mode');
+  const hudToday = document.getElementById('hud-today');
   const form = document.getElementById('session-form');
   const focusMinutesInput = document.getElementById('focus-minutes');
   const shortBreakInput = document.getElementById('short-break-minutes');
@@ -17,6 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const settings = loadStoredSettings();
   const controller = new PomodoroController({ board, soundEngine, settings });
   new KeyboardController(controller, soundEngine);
+  controller.attachHud({
+    time: hudTime,
+    goal: hudGoal,
+    mode: hudMode,
+    today: hudToday
+  });
   soundEngine.setMuted(!settings.soundEnabled);
 
   focusMinutesInput.value = String(settings.focusMinutes);

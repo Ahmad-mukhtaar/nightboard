@@ -14,6 +14,12 @@ export class PomodoroController {
     this.state = createInitialSessionState(settings);
     this._interval = null;
     this._lastSoundCue = null;
+    this.hud = null;
+  }
+
+  attachHud(hud) {
+    this.hud = hud;
+    this.updateBoard();
   }
 
   applySettings(settings) {
@@ -82,14 +88,19 @@ export class PomodoroController {
       hour12: false
     });
     const countdownLabel = formatCountdown(this.state.remainingSeconds);
+    const modeLabel = this.state.isPaused ? 'PAUSED' : this._getModeLabel();
+    const completedLabel = String(this.state.completedFocusSessions).padStart(2, '0');
+
+    if (this.hud) {
+      this.hud.time.textContent = currentTimeLabel;
+      this.hud.goal.textContent = this.state.goal.toUpperCase();
+      this.hud.mode.textContent = modeLabel;
+      this.hud.today.textContent = completedLabel;
+    }
 
     this.board.displayRows(
       buildBoardRows({
-        currentTimeLabel,
-        modeLabel: this.state.isPaused ? 'PAUSED' : this._getModeLabel(),
         countdownLabel,
-        goalLabel: this.state.goal.toUpperCase(),
-        completedLabel: `TODAY ${String(this.state.completedFocusSessions).padStart(2, '0')}`,
         prestartSeconds: this.state.prestartSeconds
       }),
       this._getAccentState(),
