@@ -78,9 +78,7 @@ export function buildBoardRows({
 
   return [
     '',
-    '',
     timerLine,
-    '',
     ''
   ];
 }

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { Tile } from '../js/Tile.js';
+import { buildFlapTimings } from '../js/SoundEngine.js';
 
 class FakeClassList {
   constructor() {
@@ -71,4 +72,9 @@ test('tile does not show random scramble characters before the flap settles', as
   await new Promise((resolve) => setTimeout(resolve, 90));
 
   assert.equal(tile.frontSpan.textContent, '');
+});
+
+test('buildFlapTimings follows the tile stagger cadence', () => {
+  assert.deepEqual(buildFlapTimings(4, 14, 6), [0, 14, 28, 42]);
+  assert.deepEqual(buildFlapTimings(10, 14, 3), [0, 14, 28]);
 });

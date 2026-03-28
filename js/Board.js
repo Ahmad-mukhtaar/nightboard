@@ -113,7 +113,7 @@ export class Board {
     }
 
     if (hasChanges && playSound && this.soundEngine) {
-      this.soundEngine.playTransition();
+      this.soundEngine.playFlapSequence(changeIndex, STAGGER_DELAY);
     }
 
     this._updateAccentColors(accentState);

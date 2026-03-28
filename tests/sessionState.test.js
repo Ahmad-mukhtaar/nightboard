@@ -67,20 +67,12 @@ test('formatCountdown renders MM:SS and pads correctly', () => {
 
 test('buildBoardRows returns timer-only board content', () => {
   const rows = buildBoardRows({
-    currentTimeLabel: '17:47',
-    modeLabel: 'FOCUS',
     countdownLabel: '24:17',
-    goalLabel: 'SHIP LANDING PAGE',
-    completedLabel: 'TODAY 03',
-    progressFilled: 8,
-    progressSegments: 20,
     prestartSeconds: null
   });
 
-  assert.equal(rows.length, 5);
+  assert.equal(rows.length, 3);
   assert.equal(rows[0], '');
-  assert.equal(rows[1], '');
-  assert.match(rows[2], /24:17/);
-  assert.equal(rows[3], '');
-  assert.equal(rows[4], '');
+  assert.match(rows[1], /24:17/);
+  assert.equal(rows[2], '');
 });

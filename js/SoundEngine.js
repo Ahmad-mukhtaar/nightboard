@@ -1,5 +1,10 @@
 import { FLAP_AUDIO_BASE64 } from './flapAudio.js';
 
+export function buildFlapTimings(changeCount, staggerMs, maxClicks = 6) {
+  const total = Math.max(0, Math.min(changeCount, maxClicks));
+  return Array.from({ length: total }, (_, index) => index * staggerMs);
+}
+
 export class SoundEngine {
   constructor() {
     this.ctx = null;
@@ -78,6 +83,28 @@ export class SoundEngine {
         this._currentSource = null;
       }
     };
+  }
+
+  playFlapSequence(changeCount, staggerMs) {
+    if (!this.ctx || !this._audioBuffer || this.muted) return;
+    this.resume();
+
+    const now = this.ctx.currentTime;
+    const offsets = buildFlapTimings(changeCount, staggerMs);
+
+    offsets.forEach((offsetMs) => {
+      const source = this.ctx.createBufferSource();
+      source.buffer = this._audioBuffer;
+
+      const gain = this.ctx.createGain();
+      gain.gain.value = 0.08;
+
+      source.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      const startAt = now + (offsetMs / 1000);
+      source.start(startAt, 0, 0.08);
+    });
   }
 
   /** Get the duration of the transition audio clip in ms */
