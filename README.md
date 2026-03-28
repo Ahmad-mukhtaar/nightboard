@@ -9,6 +9,10 @@ It is a static browser app. No accounts. No backend. No build step. Open it, ful
 
 Built as a weekend project. Purely vibecoded. Intentionally simple.
 
+## Live Site
+
+[https://ahmad-mukhtaar.github.io/nightboard/](https://ahmad-mukhtaar.github.io/nightboard/)
+
 ## Screenshots
 
 ### Setup
