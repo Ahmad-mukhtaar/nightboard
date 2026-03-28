@@ -4,7 +4,7 @@ Nightboard is a retro split-flap browser board for two moods:
 
 - a focused Pomodoro board for one task at a time
 - a full-screen clock board with city + weather
-
+*Motivation from Flipoff
 It is a static browser app. No accounts. No backend. No build step. Open it, fullscreen it, let it run.
 
 Built as a weekend project. Purely vibecoded. Intentionally simple.
