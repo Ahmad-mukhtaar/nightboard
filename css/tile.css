@@ -43,18 +43,28 @@
 
 .tile[data-row="0"] .tile-front span,
 .tile[data-row="0"] .tile-back span,
-.tile[data-row="1"] .tile-front span,
-.tile[data-row="1"] .tile-back span,
 .tile[data-row="4"] .tile-front span,
 .tile[data-row="4"] .tile-back span {
-  font-size: calc(var(--tile-size) * 0.28);
+  font-size: calc(var(--tile-size) * 0.24);
   letter-spacing: 0.04em;
+}
+
+.tile[data-row="3"] .tile-front span,
+.tile[data-row="3"] .tile-back span {
+  font-size: calc(var(--tile-size) * 0.3);
+  letter-spacing: 0.08em;
 }
 
 .tile[data-row="2"] .tile-front span,
 .tile[data-row="2"] .tile-back span {
-  font-size: calc(var(--tile-size) * 0.72);
-  letter-spacing: 0.02em;
+  font-size: calc(var(--tile-size) * 0.9);
+  letter-spacing: 0;
+}
+
+.tile[data-row="2"] .tile-front,
+.tile[data-row="2"] .tile-back {
+  background:
+    linear-gradient(180deg, #313131 0%, #2a2a2a 48%, #232323 52%, #272727 100%);
 }
 
 .tile-back {

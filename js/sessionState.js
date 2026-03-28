@@ -83,9 +83,9 @@ export function buildBoardRows({
 
   return [
     formatEdgeAlignedRow(currentTimeLabel, goalLabel),
-    modeLabel,
-    timerLine,
     '',
+    timerLine,
+    modeLabel,
     completedLabel
   ];
 }

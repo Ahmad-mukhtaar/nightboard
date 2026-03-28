@@ -1,11 +1,11 @@
 .board {
-  --tile-size: clamp(40px, 4.05vw, 62px);
-  --tile-gap: clamp(4px, 0.38vw, 6px);
+  --tile-size: clamp(46px, 4.6vw, 72px);
+  --tile-gap: clamp(4px, 0.34vw, 6px);
 
   position: relative;
   width: min-content;
   max-width: 100%;
-  padding: 36px 54px 54px;
+  padding: 34px 44px 54px;
   border-radius: 30px;
   background:
     linear-gradient(180deg, #21201e 0%, #1b1a18 100%);
