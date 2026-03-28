@@ -65,7 +65,7 @@ export class SoundEngine {
     source.buffer = this._audioBuffer;
 
     const gain = this.ctx.createGain();
-    gain.gain.value = 0.8;
+    gain.gain.value = 0.16;
 
     source.connect(gain);
     gain.connect(this.ctx.destination);

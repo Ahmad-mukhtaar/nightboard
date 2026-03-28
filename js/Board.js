@@ -89,10 +89,11 @@ export class Board {
     });
   }
 
-  displayRows(lines, accentState = 'ready') {
+  displayRows(lines, accentState = 'ready', options = {}) {
     if (this.isTransitioning) return;
     this.isTransitioning = true;
     const newGrid = this._formatToGrid(lines);
+    const { playSound = true } = options;
     let hasChanges = false;
     let changeIndex = 0;
 
@@ -110,7 +111,7 @@ export class Board {
       }
     }
 
-    if (hasChanges && this.soundEngine) {
+    if (hasChanges && playSound && this.soundEngine) {
       this.soundEngine.playTransition();
     }
 

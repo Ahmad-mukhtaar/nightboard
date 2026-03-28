@@ -2,9 +2,7 @@ import {
   createInitialSessionState,
   advanceMode,
   buildBoardRows,
-  formatCountdown,
-  getProgressSegments,
-  PROGRESS_SEGMENTS
+  formatCountdown
 } from './sessionState.js';
 
 export class PomodoroController {
@@ -15,6 +13,7 @@ export class PomodoroController {
     this.now = now;
     this.state = createInitialSessionState(settings);
     this._interval = null;
+    this._lastSoundCue = null;
   }
 
   applySettings(settings) {
@@ -26,6 +25,7 @@ export class PomodoroController {
   startPrelaunch() {
     this.stop();
     this.state = createInitialSessionState(this.settings);
+    this._lastSoundCue = null;
     this.updateBoard();
 
     this._interval = window.setInterval(() => {
@@ -78,14 +78,10 @@ export class PomodoroController {
   updateBoard() {
     const currentTimeLabel = this.now().toLocaleTimeString([], {
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      hour12: false
     });
     const countdownLabel = formatCountdown(this.state.remainingSeconds);
-    const progressFilled = getProgressSegments(
-      this.state.totalSeconds,
-      this.state.remainingSeconds,
-      PROGRESS_SEGMENTS
-    );
 
     this.board.displayRows(
       buildBoardRows({
@@ -94,11 +90,10 @@ export class PomodoroController {
         countdownLabel,
         goalLabel: this.state.goal.toUpperCase(),
         completedLabel: `TODAY ${String(this.state.completedFocusSessions).padStart(2, '0')}`,
-        progressFilled,
-        progressSegments: PROGRESS_SEGMENTS,
         prestartSeconds: this.state.prestartSeconds
       }),
-      this._getAccentState()
+      this._getAccentState(),
+      { playSound: this._consumeSoundCue() }
     );
   }
 
@@ -128,5 +123,21 @@ export class PomodoroController {
     }
 
     return this.state.mode;
+  }
+
+  _consumeSoundCue() {
+    const cue = [
+      this._getAccentState(),
+      this.state.mode,
+      this.state.prestartSeconds == null ? 'live' : 'prestart',
+      this.state.isPaused ? 'paused' : 'running'
+    ].join(':');
+
+    if (cue === this._lastSoundCue) {
+      return false;
+    }
+
+    this._lastSoundCue = cue;
+    return true;
   }
 }

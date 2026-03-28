@@ -74,22 +74,17 @@ export function buildBoardRows({
   countdownLabel,
   goalLabel,
   completedLabel,
-  progressFilled,
-  progressSegments,
   prestartSeconds
 }) {
-  const filled = '■'.repeat(progressFilled);
-  const empty = '□'.repeat(Math.max(0, progressSegments - progressFilled));
-  const progressRow = `${filled}${empty}`;
   const timerLine = prestartSeconds == null
     ? countdownLabel
     : `STARTING IN ${prestartSeconds}`;
 
   return [
-    `${currentTimeLabel}   ${completedLabel}`.trim(),
+    currentTimeLabel,
     modeLabel,
     timerLine,
     goalLabel,
-    progressRow
+    completedLabel
   ];
 }

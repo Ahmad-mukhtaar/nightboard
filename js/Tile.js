@@ -63,19 +63,18 @@ export class Tile {
           clearInterval(this._scrambleTimer);
           this._scrambleTimer = null;
           this.frontSpan.style.opacity = '';
-          this.frontSpan.textContent = targetChar === ' ' ? '' : targetChar;
-          this.innerEl.style.transition = `transform ${FLIP_DURATION}ms ease-in-out`;
-          this.innerEl.style.transform = 'perspective(400px) rotateX(-12deg)';
+          this.backSpan.textContent = targetChar === ' ' ? '' : targetChar;
+          this.innerEl.style.setProperty('--flip-duration', `${FLIP_DURATION}ms`);
+          this.innerEl.classList.add('flipping');
 
           setTimeout(() => {
-            this.innerEl.style.transform = '';
-            setTimeout(() => {
-              this.innerEl.style.transition = '';
-              this.el.classList.remove('scrambling');
-              this.currentChar = targetChar;
-              this.isAnimating = false;
-            }, FLIP_DURATION);
-          }, FLIP_DURATION / 2);
+            this.frontSpan.textContent = targetChar === ' ' ? '' : targetChar;
+            this.backSpan.textContent = '';
+            this.innerEl.classList.remove('flipping');
+            this.el.classList.remove('scrambling');
+            this.currentChar = targetChar;
+            this.isAnimating = false;
+          }, FLIP_DURATION);
         }
       }, scrambleInterval);
     }, delay);
