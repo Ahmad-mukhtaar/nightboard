@@ -1,0 +1,32 @@
+name: Feature request
+description: Suggest an improvement that fits Nightboard
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      placeholder: I want a cleaner way to switch into clock mode on a kiosk display.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      placeholder: Add a board-only launch option for Clock mode from the setup screen.
+    validations:
+      required: true
+  - type: textarea
+    id: fit
+    attributes:
+      label: Why does this fit Nightboard?
+      description: Explain how it keeps the app simple, readable, and retro-first.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: A browser bookmark or a separate clock-only build.

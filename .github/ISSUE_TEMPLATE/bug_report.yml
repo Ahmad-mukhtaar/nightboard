@@ -1,0 +1,47 @@
+name: Bug report
+description: Report a reproducible Nightboard bug
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly and briefly.
+      placeholder: The Pomodoro board scrolls in fullscreen on macOS Safari.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps so someone else can reproduce the problem.
+      placeholder: |
+        1. Open Nightboard
+        2. Start a Pomodoro session
+        3. Enter fullscreen
+        4. Observe ...
+    validations:
+      required: true
+  - type: input
+    id: mode
+    attributes:
+      label: Mode
+      description: Which mode were you using?
+      placeholder: Pomodoro or Clock board
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Safari 18, Chrome 135, Firefox 126
+  - type: input
+    id: device
+    attributes:
+      label: Device / OS
+      placeholder: MacBook Pro / macOS 15
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshots or recordings
+      description: Add screenshots, clips, or console output if helpful.

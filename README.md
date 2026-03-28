@@ -13,6 +13,12 @@ Built as a weekend project. Purely vibecoded. Intentionally simple.
 
 [https://ahmad-mukhtaar.github.io/nightboard/](https://ahmad-mukhtaar.github.io/nightboard/)
 
+## Community
+
+- [Contributing guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security notes](SECURITY.md)
+
 ## Screenshots
 
 ### Setup
