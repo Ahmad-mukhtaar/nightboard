@@ -70,7 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const createController = (nextSettings) => (
     nextSettings.mode === 'clock'
       ? new ClockBoardController({ board, settings: nextSettings, weatherService })
-      : new PomodoroController({ board, soundEngine, settings: nextSettings })
+      : new PomodoroController({
+        board,
+        soundEngine,
+        settings: nextSettings,
+        onCycleComplete: () => {
+          returnToSetup();
+        }
+      })
   );
 
   const activateController = (nextSettings) => {

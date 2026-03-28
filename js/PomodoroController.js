@@ -6,11 +6,12 @@ import {
 } from './sessionState.js';
 
 export class PomodoroController {
-  constructor({ board, soundEngine, settings, now = () => new Date() }) {
+  constructor({ board, soundEngine, settings, now = () => new Date(), onCycleComplete = null }) {
     this.board = board;
     this.soundEngine = soundEngine;
     this.settings = settings;
     this.now = now;
+    this.onCycleComplete = onCycleComplete;
     this.state = createInitialSessionState(settings);
     this._interval = null;
     this.hud = null;
@@ -36,29 +37,7 @@ export class PomodoroController {
     this.updateBoard();
 
     this._interval = window.setInterval(() => {
-      if (this.state.prestartSeconds != null) {
-        if (this.state.prestartSeconds <= 1) {
-          this.state.prestartSeconds = null;
-        } else {
-          this.state.prestartSeconds -= 1;
-        }
-
-        this.updateBoard();
-        return;
-      }
-
-      if (this.state.isPaused) {
-        this.updateBoard();
-        return;
-      }
-
-      if (this.state.remainingSeconds <= 1) {
-        this.state = advanceMode(this.state, this.settings);
-      } else {
-        this.state.remainingSeconds -= 1;
-      }
-
-      this.updateBoard();
+      this._handleTick();
     }, 1000);
   }
 
@@ -80,6 +59,38 @@ export class PomodoroController {
       clearInterval(this._interval);
       this._interval = null;
     }
+  }
+
+  _handleTick() {
+    if (this.state.prestartSeconds != null) {
+      if (this.state.prestartSeconds <= 1) {
+        this.state.prestartSeconds = null;
+      } else {
+        this.state.prestartSeconds -= 1;
+      }
+
+      this.updateBoard();
+      return;
+    }
+
+    if (this.state.isPaused) {
+      this.updateBoard();
+      return;
+    }
+
+    if (this.state.remainingSeconds <= 1) {
+      if (this.state.mode === 'longBreak') {
+        this.stop();
+        this.onCycleComplete?.();
+        return;
+      }
+
+      this.state = advanceMode(this.state, this.settings);
+    } else {
+      this.state.remainingSeconds -= 1;
+    }
+
+    this.updateBoard();
   }
 
   updateBoard() {

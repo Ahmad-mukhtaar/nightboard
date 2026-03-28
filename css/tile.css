@@ -33,11 +33,11 @@
 .tile-front span,
 .tile-back span {
   color: #f7f7f3;
-  font-family: 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Barlow Condensed', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
   font-size: calc(var(--tile-size) * 0.54);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
