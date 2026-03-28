@@ -86,10 +86,10 @@ export function buildBoardRows({
     : `STARTING IN ${prestartSeconds}`;
 
   return [
-    `${currentTimeLabel} ${modeLabel}`.trim(),
-    '',
+    `${currentTimeLabel}   ${completedLabel}`.trim(),
+    modeLabel,
     timerLine,
     goalLabel,
-    `${completedLabel} ${progressRow}`.trim()
+    progressRow
   ];
 }

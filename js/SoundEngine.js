@@ -38,6 +38,11 @@ export class SoundEngine {
     return this.muted;
   }
 
+  setMuted(nextMuted) {
+    this.muted = Boolean(nextMuted);
+    return this.muted;
+  }
+
   /**
    * Play the full transition sound once.
    * This is a single recorded clip of a split-flap board transition,

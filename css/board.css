@@ -1,19 +1,21 @@
-/* Board Container */
 .board {
-  --tile-size: clamp(36px, 4.2vw, 62px);
-  --tile-gap: clamp(3px, 0.3vw, 5px);
+  --tile-size: clamp(40px, 4.05vw, 62px);
+  --tile-gap: clamp(4px, 0.38vw, 6px);
 
   position: relative;
-  background: #1A1A1A;
-  border-radius: 16px;
-  padding: 28px 48px 40px;
-  width: 100%;
+  width: min-content;
+  max-width: 100%;
+  padding: 36px 54px 54px;
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, #21201e 0%, #1b1a18 100%);
   box-shadow:
-    0 -4px 20px rgba(0, 0, 0, 0.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    0 28px 80px rgba(0, 0, 0, 0.42);
   overflow: hidden;
 }
 
-/* Tile Grid */
 .tile-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols, 22), var(--tile-size));
@@ -22,68 +24,66 @@
   justify-content: center;
 }
 
-/* Accent Squares — small stacked blocks in top corners */
 .accent-bar {
   position: absolute;
-  top: 30px;
+  top: 38px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  z-index: 5;
+  gap: 5px;
 }
 
 .accent-bar-left {
-  left: 18px;
+  left: 24px;
 }
 
 .accent-bar-right {
-  right: 18px;
+  right: 24px;
 }
 
 .accent-segment {
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-  transition: background-color 0.5s ease;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #bcc4ca;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Keyboard Shortcut Indicator */
 .keyboard-hint {
   position: absolute;
-  bottom: 12px;
-  left: 16px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  bottom: 18px;
+  left: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  font-weight: 800;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s ease;
 }
 
 .keyboard-hint:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.14);
 }
 
-/* Shortcuts Overlay */
 .shortcuts-overlay {
-  display: none;
   position: absolute;
-  bottom: 48px;
-  left: 16px;
-  background: rgba(0, 0, 0, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 12px 16px;
+  left: 20px;
+  bottom: 64px;
+  display: none;
+  min-width: 210px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(5, 5, 5, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
   z-index: 10;
-  min-width: 180px;
 }
 
 .shortcuts-overlay.visible {
@@ -93,27 +93,26 @@
 .shortcuts-overlay div {
   display: flex;
   justify-content: space-between;
+  gap: 18px;
   padding: 4px 0;
 }
 
 .shortcuts-overlay kbd {
-  background: rgba(255, 255, 255, 0.1);
   padding: 1px 6px;
-  border-radius: 3px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
   font-family: inherit;
   font-size: 11px;
-  margin-left: 16px;
 }
 
-/* Scroll indicator at bottom of board */
 .board::after {
   content: '';
   position: absolute;
-  bottom: 12px;
   left: 50%;
+  bottom: 18px;
   transform: translateX(-50%);
-  width: 40px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.15);
+  width: 54px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
 }

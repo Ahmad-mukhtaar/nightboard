@@ -1,5 +1,6 @@
 import {
   createInitialSessionState,
+  advanceMode,
   buildBoardRows,
   formatCountdown,
   getProgressSegments,
@@ -22,11 +23,50 @@ export class PomodoroController {
     this.updateBoard();
   }
 
-  startPrelaunch() {}
+  startPrelaunch() {
+    this.stop();
+    this.state = createInitialSessionState(this.settings);
+    this.updateBoard();
 
-  pauseToggle() {}
+    this._interval = window.setInterval(() => {
+      if (this.state.prestartSeconds != null) {
+        if (this.state.prestartSeconds <= 1) {
+          this.state.prestartSeconds = null;
+        } else {
+          this.state.prestartSeconds -= 1;
+        }
 
-  reset() {}
+        this.updateBoard();
+        return;
+      }
+
+      if (this.state.isPaused) {
+        this.updateBoard();
+        return;
+      }
+
+      if (this.state.remainingSeconds <= 1) {
+        this.state = advanceMode(this.state, this.settings);
+      } else {
+        this.state.remainingSeconds -= 1;
+      }
+
+      this.updateBoard();
+    }, 1000);
+  }
+
+  pauseToggle() {
+    if (this.state.prestartSeconds != null) {
+      return;
+    }
+
+    this.state.isPaused = !this.state.isPaused;
+    this.updateBoard();
+  }
+
+  reset() {
+    this.startPrelaunch();
+  }
 
   stop() {
     if (this._interval) {
@@ -50,7 +90,7 @@ export class PomodoroController {
     this.board.displayRows(
       buildBoardRows({
         currentTimeLabel,
-        modeLabel: this.state.mode.toUpperCase(),
+        modeLabel: this.state.isPaused ? 'PAUSED' : this._getModeLabel(),
         countdownLabel,
         goalLabel: this.state.goal.toUpperCase(),
         completedLabel: `TODAY ${String(this.state.completedFocusSessions).padStart(2, '0')}`,
@@ -58,7 +98,35 @@ export class PomodoroController {
         progressSegments: PROGRESS_SEGMENTS,
         prestartSeconds: this.state.prestartSeconds
       }),
-      this.state.mode
+      this._getAccentState()
     );
+  }
+
+  _getModeLabel() {
+    if (this.state.prestartSeconds != null) {
+      return 'READY';
+    }
+
+    if (this.state.mode === 'shortBreak') {
+      return 'SHORT BREAK';
+    }
+
+    if (this.state.mode === 'longBreak') {
+      return 'LONG BREAK';
+    }
+
+    return 'FOCUS';
+  }
+
+  _getAccentState() {
+    if (this.state.prestartSeconds != null) {
+      return 'ready';
+    }
+
+    if (this.state.isPaused) {
+      return 'paused';
+    }
+
+    return this.state.mode;
   }
 }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#111111">
-  <title>FlipOff. — Free Split-Flap Display for Any TV</title>
+  <title>FlipOff Focus. - Retro Pomodoro Board</title>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/board.css">
@@ -12,36 +12,79 @@
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-
   <div class="page-frame">
-    <!-- Header -->
     <header class="header">
-      <div class="header-logo">FlipOff.</div>
-      <nav class="header-nav">
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-        <button class="volume-icon" id="volume-btn" title="Toggle sound">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          </svg>
-        </button>
-      </nav>
+      <div class="header-logo">FlipOff Focus.</div>
+      <button class="volume-icon" id="volume-btn" type="button" title="Toggle sound">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+      </button>
     </header>
 
-    <!-- Hero -->
-    <section class="hero">
-      <h1>Turn any TV into a retro split-flap display.</h1>
-      <p class="subtitle">The classic flip-board look, without the $3,500 hardware.</p>
-      <div class="hero-cta">
-        <input type="email" placeholder="you@example.com">
-        <button id="cta-btn">Get Early Access</button>
-      </div>
+    <section class="setup-panel">
+      <p class="setup-kicker">Retro focus board</p>
+      <h1>Set the session, hit fullscreen, let the board run.</h1>
+      <p class="setup-subtitle">
+        A monochrome split-flap Pomodoro board for desktop work. One goal, one timer, no clutter.
+      </p>
+
+      <form id="session-form" class="session-form">
+        <label class="field">
+          <span>Focus minutes</span>
+          <select id="focus-minutes" name="focusMinutes">
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+            <option value="60">60</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Short break</span>
+          <select id="short-break-minutes" name="shortBreakMinutes">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Long break</span>
+          <select id="long-break-minutes" name="longBreakMinutes">
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </select>
+        </label>
+
+        <label class="field goal-field">
+          <span>Focus goal</span>
+          <input
+            id="goal-input"
+            name="goal"
+            type="text"
+            maxlength="22"
+            placeholder="Finish experiment writeup"
+            autocomplete="off"
+          >
+        </label>
+
+        <label class="sound-field">
+          <input id="sound-enabled" name="soundEnabled" type="checkbox" checked>
+          <span>Enable split-flap sound</span>
+        </label>
+
+        <button id="start-session-btn" class="start-button" type="submit">Start session</button>
+      </form>
+
+      <p class="setup-hint">The board opens with a 5-second prestart so you can go fullscreen.</p>
     </section>
 
-    <!-- Board -->
-    <section class="board-section" id="board-container">
+    <section class="board-shell" id="board-shell">
+      <section class="board-section" id="board-container"></section>
     </section>
   </div>
 

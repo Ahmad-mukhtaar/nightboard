@@ -1,7 +1,6 @@
 import { Tile } from './Tile.js';
 import {
-  GRID_COLS, GRID_ROWS, STAGGER_DELAY, SCRAMBLE_DURATION,
-  TOTAL_TRANSITION, ACCENT_COLORS
+  GRID_COLS, GRID_ROWS, STAGGER_DELAY, TOTAL_TRANSITION, ACCENT_COLORS
 } from './constants.js';
 
 export class Board {
@@ -12,19 +11,14 @@ export class Board {
     this.isTransitioning = false;
     this.tiles = [];
     this.currentGrid = [];
-    this.accentIndex = 0;
-
-    // Build board DOM
     this.boardEl = document.createElement('div');
     this.boardEl.className = 'board';
     this.boardEl.style.setProperty('--grid-cols', this.cols);
     this.boardEl.style.setProperty('--grid-rows', this.rows);
 
-    // Left accent squares (2 small stacked blocks)
     this.leftBar = this._createAccentBar('accent-bar-left');
     this.boardEl.appendChild(this.leftBar);
 
-    // Tile grid
     this.gridEl = document.createElement('div');
     this.gridEl.className = 'tile-grid';
 
@@ -44,14 +38,12 @@ export class Board {
 
     this.boardEl.appendChild(this.gridEl);
 
-    // Right accent squares
     this.rightBar = this._createAccentBar('accent-bar-right');
     this.boardEl.appendChild(this.rightBar);
 
-    // Keyboard hint icon (bottom-left)
     const hint = document.createElement('div');
     hint.className = 'keyboard-hint';
-    hint.textContent = 'N';
+    hint.textContent = '?';
     hint.title = 'Keyboard shortcuts';
     hint.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -64,15 +56,15 @@ export class Board {
     const overlay = document.createElement('div');
     overlay.className = 'shortcuts-overlay';
     overlay.innerHTML = `
-      <div><span>Next message</span><kbd>Enter</kbd></div>
-      <div><span>Previous</span><kbd>\u2190</kbd></div>
+      <div><span>Pause / Resume</span><kbd>Space</kbd></div>
       <div><span>Fullscreen</span><kbd>F</kbd></div>
-      <div><span>Mute</span><kbd>M</kbd></div>
+      <div><span>Reset</span><kbd>R</kbd></div>
+      <div><span>Sound</span><kbd>M</kbd></div>
     `;
     this.boardEl.appendChild(overlay);
 
     containerEl.appendChild(this.boardEl);
-    this._updateAccentColors();
+    this._updateAccentColors('ready');
   }
 
   _createAccentBar(extraClass) {
@@ -88,22 +80,21 @@ export class Board {
   }
 
   _updateAccentColors() {
-    const color = ACCENT_COLORS[this.accentIndex % ACCENT_COLORS.length];
+    const accentState = arguments[0] || 'ready';
+    const color = ACCENT_COLORS[accentState] || ACCENT_COLORS.ready;
     const segments = this.boardEl.querySelectorAll('.accent-segment');
     segments.forEach(seg => {
       seg.style.backgroundColor = color;
+      seg.style.boxShadow = `0 0 18px ${color}44`;
     });
   }
 
-  displayMessage(lines) {
+  displayRows(lines, accentState = 'ready') {
     if (this.isTransitioning) return;
     this.isTransitioning = true;
-
-    // Format lines into grid
     const newGrid = this._formatToGrid(lines);
-
-    // Determine which tiles need to change
     let hasChanges = false;
+    let changeIndex = 0;
 
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
@@ -111,35 +102,34 @@ export class Board {
         const oldChar = this.currentGrid[r][c];
 
         if (newChar !== oldChar) {
-          const delay = (r * this.cols + c) * STAGGER_DELAY;
+          const delay = changeIndex * STAGGER_DELAY;
           this.tiles[r][c].scrambleTo(newChar, delay);
           hasChanges = true;
+          changeIndex += 1;
         }
       }
     }
 
-    // Play the single transition audio clip once
     if (hasChanges && this.soundEngine) {
       this.soundEngine.playTransition();
     }
 
-    // Update accent bar colors
-    this.accentIndex++;
-    this._updateAccentColors();
-
-    // Update grid state
+    this._updateAccentColors(accentState);
     this.currentGrid = newGrid;
 
-    // Clear transitioning flag after animation completes
     setTimeout(() => {
       this.isTransitioning = false;
-    }, TOTAL_TRANSITION + 200);
+    }, Math.max(260, (changeIndex * STAGGER_DELAY) + TOTAL_TRANSITION));
+  }
+
+  displayMessage(lines) {
+    this.displayRows(lines, 'ready');
   }
 
   _formatToGrid(lines) {
     const grid = [];
     for (let r = 0; r < this.rows; r++) {
-      const line = (lines[r] || '').toUpperCase();
+      const line = (lines[r] || '').toUpperCase().slice(0, this.cols);
       const padTotal = this.cols - line.length;
       const padLeft = Math.max(0, Math.floor(padTotal / 2));
       const padded = ' '.repeat(padLeft) + line + ' '.repeat(Math.max(0, this.cols - padLeft - line.length));
