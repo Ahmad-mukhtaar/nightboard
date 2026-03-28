@@ -1,3 +1,43 @@
+@font-face {
+  font-family: 'Doto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/doto-400.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Doto';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/doto-500.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Doto';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/doto-600.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Doto';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/doto-700.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Doto';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/doto-800.ttf') format('truetype');
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
