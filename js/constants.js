@@ -1,5 +1,5 @@
-export const GRID_COLS = 24;
-export const GRID_ROWS = 3;
+export const GRID_COLS = 30;
+export const GRID_ROWS = 5;
 
 export const FLIP_DURATION = 220;
 export const STAGGER_DELAY = 14;

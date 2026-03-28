@@ -1,9 +1,18 @@
 export class KeyboardController {
-  constructor(controller, soundEngine) {
+  constructor(controller, soundEngine, callbacks = {}) {
     this.controller = controller;
     this.soundEngine = soundEngine;
+    this.callbacks = callbacks;
 
     document.addEventListener('keydown', (e) => this._handleKey(e));
+  }
+
+  setController(controller) {
+    this.controller = controller;
+  }
+
+  setCallbacks(callbacks = {}) {
+    this.callbacks = callbacks;
   }
 
   _handleKey(e) {
@@ -13,7 +22,7 @@ export class KeyboardController {
     switch (e.key) {
       case ' ':
         e.preventDefault();
-        this.controller.pauseToggle();
+        this.controller?.pauseToggle?.();
         break;
 
       case 'f':
@@ -34,8 +43,16 @@ export class KeyboardController {
       case 'r':
       case 'R':
         e.preventDefault();
-        this.controller.reset();
-        this._showToast('Session reset');
+        if (this.controller?.reset) {
+          this.controller.reset();
+          this._showToast('Board refreshed');
+        }
+        break;
+
+      case 'b':
+      case 'B':
+        e.preventDefault();
+        this.callbacks.onBack?.();
         break;
 
       case 'Escape':

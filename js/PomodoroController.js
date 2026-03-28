@@ -13,25 +13,26 @@ export class PomodoroController {
     this.now = now;
     this.state = createInitialSessionState(settings);
     this._interval = null;
-    this._lastSoundCue = null;
     this.hud = null;
   }
 
   attachHud(hud) {
     this.hud = hud;
+    this.board.configureGrid(30, 5, 2);
+    this._setHudLabels();
     this.updateBoard();
   }
 
   applySettings(settings) {
     this.settings = settings;
     this.state = createInitialSessionState(settings);
+    this.board.configureGrid(30, 5, 2);
     this.updateBoard();
   }
 
   startPrelaunch() {
     this.stop();
     this.state = createInitialSessionState(this.settings);
-    this._lastSoundCue = null;
     this.updateBoard();
 
     this._interval = window.setInterval(() => {
@@ -92,6 +93,7 @@ export class PomodoroController {
     const completedLabel = String(this.state.completedFocusSessions).padStart(2, '0');
 
     if (this.hud) {
+      this._setHudLabels();
       this.hud.time.textContent = currentTimeLabel;
       this.hud.goal.textContent = this.state.goal.toUpperCase();
       this.hud.mode.textContent = modeLabel;
@@ -101,10 +103,13 @@ export class PomodoroController {
     this.board.displayRows(
       buildBoardRows({
         countdownLabel,
-        prestartSeconds: this.state.prestartSeconds
+        prestartSeconds: this.state.prestartSeconds,
+        modeLabel,
+        goalLabel: this.state.goal.toUpperCase(),
+        isPaused: this.state.isPaused
       }),
       this._getAccentState(),
-      { playSound: this._consumeSoundCue() }
+      { playSound: true }
     );
   }
 
@@ -136,19 +141,14 @@ export class PomodoroController {
     return this.state.mode;
   }
 
-  _consumeSoundCue() {
-    const cue = [
-      this._getAccentState(),
-      this.state.mode,
-      this.state.prestartSeconds == null ? 'live' : 'prestart',
-      this.state.isPaused ? 'paused' : 'running'
-    ].join(':');
-
-    if (cue === this._lastSoundCue) {
-      return false;
+  _setHudLabels() {
+    if (!this.hud?.labels) {
+      return;
     }
 
-    this._lastSoundCue = cue;
-    return true;
+    this.hud.labels.time.textContent = 'Time';
+    this.hud.labels.goal.textContent = 'Goal';
+    this.hud.labels.mode.textContent = 'Mode';
+    this.hud.labels.today.textContent = 'Today';
   }
 }

@@ -1,8 +1,25 @@
 import { FLAP_AUDIO_BASE64 } from './flapAudio.js';
 
-export function buildFlapTimings(changeCount, staggerMs, maxClicks = 6) {
+export function buildFlapTimings(changeCount, staggerMs, maxClicks = 4) {
   const total = Math.max(0, Math.min(changeCount, maxClicks));
   return Array.from({ length: total }, (_, index) => index * staggerMs);
+}
+
+export function findAttackOffsetSeconds(channelData, sampleRate, threshold = 0.02) {
+  if (!channelData?.length || !sampleRate) {
+    return 0;
+  }
+
+  const step = Math.max(1, Math.floor(sampleRate / 1200));
+  const backoffSamples = Math.floor(sampleRate * 0.012);
+
+  for (let index = 0; index < channelData.length; index += step) {
+    if (Math.abs(channelData[index]) >= threshold) {
+      return Math.max(0, (index - backoffSamples) / sampleRate);
+    }
+  }
+
+  return 0;
 }
 
 export class SoundEngine {
@@ -12,6 +29,8 @@ export class SoundEngine {
     this._initialized = false;
     this._audioBuffer = null;
     this._currentSource = null;
+    this._attackOffset = 0;
+    this._sliceDuration = 0.14;
   }
 
   async init() {
@@ -27,6 +46,12 @@ export class SoundEngine {
         bytes[i] = binaryStr.charCodeAt(i);
       }
       this._audioBuffer = await this.ctx.decodeAudioData(bytes.buffer);
+      const firstChannel = this._audioBuffer.getChannelData(0);
+      this._attackOffset = findAttackOffsetSeconds(firstChannel, this._audioBuffer.sampleRate);
+      this._sliceDuration = Math.min(
+        0.16,
+        Math.max(0.1, this._audioBuffer.duration - this._attackOffset)
+      );
     } catch (e) {
       console.warn('Failed to decode flap audio:', e);
     }
@@ -97,13 +122,16 @@ export class SoundEngine {
       source.buffer = this._audioBuffer;
 
       const gain = this.ctx.createGain();
-      gain.gain.value = 0.08;
+      const startAt = now + (offsetMs / 1000);
 
       source.connect(gain);
       gain.connect(this.ctx.destination);
 
-      const startAt = now + (offsetMs / 1000);
-      source.start(startAt, 0, 0.08);
+      gain.gain.setValueAtTime(0.0001, startAt);
+      gain.gain.linearRampToValueAtTime(0.055, startAt + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startAt + this._sliceDuration);
+
+      source.start(startAt, this._attackOffset, this._sliceDuration);
     });
   }
 

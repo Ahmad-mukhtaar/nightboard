@@ -65,14 +65,49 @@ test('formatCountdown renders MM:SS and pads correctly', () => {
   assert.equal(formatCountdown((24 * 60) + 17), '24:17');
 });
 
-test('buildBoardRows returns timer-only board content', () => {
+test('buildBoardRows returns a sparse five-row board layout', () => {
   const rows = buildBoardRows({
     countdownLabel: '24:17',
-    prestartSeconds: null
+    prestartSeconds: null,
+    modeLabel: 'FOCUS',
+    goalLabel: 'CODING SESSION',
+    isPaused: false
   });
 
-  assert.equal(rows.length, 3);
+  assert.equal(rows.length, 5);
   assert.equal(rows[0], '');
-  assert.match(rows[1], /24:17/);
-  assert.equal(rows[2], '');
+  assert.equal(rows[1], '');
+  assert.match(rows[2], /24:17/);
+  assert.equal(rows[3], '');
+  assert.equal(rows[4], '');
+});
+
+test('buildBoardRows swaps in event messages for prestart and paused states', () => {
+  const prestartRows = buildBoardRows({
+    countdownLabel: '25:00',
+    prestartSeconds: 5,
+    modeLabel: 'FOCUS',
+    goalLabel: 'CODING SESSION',
+    isPaused: false
+  });
+
+  assert.equal(prestartRows[0], '');
+  assert.equal(prestartRows[1], '');
+  assert.equal(prestartRows[2], 'START IN 5');
+  assert.equal(prestartRows[3], '');
+  assert.equal(prestartRows[4], 'GO FULLSCREEN');
+
+  const pausedRows = buildBoardRows({
+    countdownLabel: '18:21',
+    prestartSeconds: null,
+    modeLabel: 'FOCUS',
+    goalLabel: 'CODING SESSION',
+    isPaused: true
+  });
+
+  assert.equal(pausedRows[0], '');
+  assert.equal(pausedRows[1], '');
+  assert.equal(pausedRows[2], '18:21');
+  assert.equal(pausedRows[3], '');
+  assert.equal(pausedRows[4], 'SPACE RESUME');
 });

@@ -107,6 +107,11 @@ body {
   gap: 9px;
 }
 
+.field[hidden],
+.sound-field[hidden] {
+  display: none;
+}
+
 .field span,
 .sound-field span {
   color: #d9cfbe;
@@ -138,6 +143,10 @@ body {
 
 .field input::placeholder {
   color: #7b7368;
+}
+
+.custom-minutes-input[hidden] {
+  display: none;
 }
 
 .goal-field {
@@ -192,15 +201,15 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 24px 0 0;
+  gap: 18px;
+  padding: 12px 0 0;
 }
 
 .board-hud {
-  width: min(1280px, 100%);
+  width: min(84vw, 1500px);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   color: #d7d0c3;
 }
 
@@ -242,6 +251,18 @@ body {
   line-height: 1.1;
 }
 
+#hud-time {
+  font-size: clamp(30px, 3.5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+body.clock-mode #hud-time,
+body.clock-mode #hud-goal {
+  font-size: clamp(20px, 2.3vw, 32px);
+  letter-spacing: 0;
+}
+
 #hud-goal {
   max-width: 36ch;
   white-space: nowrap;
@@ -253,10 +274,29 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 body.board-active .page-frame {
   max-width: none;
+}
+
+body.board-active.clock-mode .page-frame {
+  padding: 0;
+}
+
+body.board-active.clock-mode .board-shell {
+  gap: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body.board-active.clock-mode .board-hud {
+  display: none;
+}
+
+body.board-active.clock-mode .board-section {
+  min-height: 100vh;
 }
 
 body.board-active .header,

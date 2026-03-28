@@ -70,15 +70,21 @@ export function advanceMode(state, settings = DEFAULTS) {
 
 export function buildBoardRows({
   countdownLabel,
-  prestartSeconds
+  prestartSeconds,
+  isPaused
 }) {
-  const timerLine = prestartSeconds == null
-    ? countdownLabel
-    : `STARTING IN ${prestartSeconds}`;
+  const timerLine = prestartSeconds == null ? countdownLabel : `START IN ${prestartSeconds}`;
+  const footerLine = isPaused
+    ? 'SPACE RESUME'
+    : prestartSeconds != null
+      ? 'GO FULLSCREEN'
+      : '';
 
   return [
     '',
+    '',
     timerLine,
-    ''
+    '',
+    footerLine
   ];
 }

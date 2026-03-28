@@ -5,13 +5,16 @@ export function normalizeSettings(raw = {}) {
     const parsed = Number.parseInt(value, 10);
     return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
   };
+  const mode = raw.mode === 'clock' ? 'clock' : DEFAULTS.mode;
 
   return {
+    mode,
     focusMinutes: toPositiveInt(raw.focusMinutes, DEFAULTS.focusMinutes),
     shortBreakMinutes: toPositiveInt(raw.shortBreakMinutes, DEFAULTS.shortBreakMinutes),
     longBreakMinutes: toPositiveInt(raw.longBreakMinutes, DEFAULTS.longBreakMinutes),
     soundEnabled: raw.soundEnabled ?? DEFAULTS.soundEnabled,
-    goal: typeof raw.goal === 'string' ? raw.goal.trim() : DEFAULTS.goal
+    goal: typeof raw.goal === 'string' ? raw.goal.trim() : DEFAULTS.goal,
+    city: typeof raw.city === 'string' ? raw.city.trim() : DEFAULTS.city
   };
 }
 

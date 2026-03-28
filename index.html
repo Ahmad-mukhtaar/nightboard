@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://geocoding-api.open-meteo.com https://api.open-meteo.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+  >
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+  <meta name="description" content="Nightboard is a retro split-flap browser board for Pomodoro sessions and full-screen clock mode.">
   <meta name="theme-color" content="#111111">
-  <title>FlipOff Focus. - Retro Pomodoro Board</title>
+  <title>Nightboard | Retro Focus + Clock Board</title>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/board.css">
@@ -14,7 +21,7 @@
 <body>
   <div class="page-frame">
     <header class="header">
-      <div class="header-logo">FlipOff Focus.</div>
+      <div class="header-logo">Nightboard</div>
       <button class="volume-icon" id="volume-btn" type="button" title="Toggle sound">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -25,42 +32,92 @@
     </header>
 
     <section class="setup-panel">
-      <p class="setup-kicker">Retro focus board</p>
-      <h1>Set the session, hit fullscreen, let the board run.</h1>
+      <p class="setup-kicker">Weekend board project</p>
+      <h1>Nightboard turns your browser into a split-flap wall display.</h1>
       <p class="setup-subtitle">
-        A monochrome split-flap Pomodoro board for desktop work. One goal, one timer, no clutter.
+        A static, fully client-side weekend project for two modes: a retro Pomodoro board and a full-screen clock with live weather.
       </p>
 
       <form id="session-form" class="session-form">
         <label class="field">
+          <span>Board mode</span>
+          <select id="board-mode" name="mode">
+            <option value="pomodoro">Pomodoro</option>
+            <option value="clock">Clock board</option>
+          </select>
+        </label>
+
+        <label class="field pomodoro-field">
           <span>Focus minutes</span>
           <select id="focus-minutes" name="focusMinutes">
             <option value="25">25</option>
             <option value="30">30</option>
             <option value="45">45</option>
             <option value="60">60</option>
+            <option value="custom">Custom</option>
           </select>
+          <input
+            id="focus-minutes-custom"
+            class="custom-minutes-input"
+            name="focusMinutesCustom"
+            type="number"
+            min="1"
+            max="240"
+            step="1"
+            inputmode="numeric"
+            placeholder="Custom minutes"
+            hidden
+            disabled
+          >
         </label>
 
-        <label class="field">
+        <label class="field pomodoro-field">
           <span>Short break</span>
           <select id="short-break-minutes" name="shortBreakMinutes">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
+            <option value="custom">Custom</option>
           </select>
+          <input
+            id="short-break-minutes-custom"
+            class="custom-minutes-input"
+            name="shortBreakMinutesCustom"
+            type="number"
+            min="1"
+            max="120"
+            step="1"
+            inputmode="numeric"
+            placeholder="Custom minutes"
+            hidden
+            disabled
+          >
         </label>
 
-        <label class="field">
+        <label class="field pomodoro-field">
           <span>Long break</span>
           <select id="long-break-minutes" name="longBreakMinutes">
             <option value="15">15</option>
             <option value="20">20</option>
             <option value="30">30</option>
+            <option value="custom">Custom</option>
           </select>
+          <input
+            id="long-break-minutes-custom"
+            class="custom-minutes-input"
+            name="longBreakMinutesCustom"
+            type="number"
+            min="1"
+            max="180"
+            step="1"
+            inputmode="numeric"
+            placeholder="Custom minutes"
+            hidden
+            disabled
+          >
         </label>
 
-        <label class="field goal-field">
+        <label class="field goal-field pomodoro-field">
           <span>Focus goal</span>
           <input
             id="goal-input"
@@ -68,6 +125,18 @@
             type="text"
             maxlength="22"
             placeholder="Finish experiment writeup"
+            autocomplete="off"
+          >
+        </label>
+
+        <label class="field goal-field clock-field" id="clock-city-field" hidden>
+          <span>City</span>
+          <input
+            id="city-input"
+            name="city"
+            type="text"
+            maxlength="40"
+            placeholder="Helsinki"
             autocomplete="off"
           >
         </label>
@@ -80,28 +149,28 @@
         <button id="start-session-btn" class="start-button" type="submit">Start session</button>
       </form>
 
-      <p class="setup-hint">The board opens with a 5-second prestart so you can go fullscreen.</p>
+      <p class="setup-hint">Weekend project, purely vibecoded, intentionally simple. Pomodoro mode gets a 5-second fullscreen runway.</p>
     </section>
 
     <section class="board-shell" id="board-shell">
       <section class="board-hud" id="board-hud">
         <div class="hud-row">
           <div class="hud-meta">
-            <span class="hud-label">Time</span>
+            <span class="hud-label" id="hud-time-label">Time</span>
             <span class="hud-value" id="hud-time">17:47</span>
           </div>
           <div class="hud-meta hud-meta-right">
-            <span class="hud-label">Goal</span>
+            <span class="hud-label" id="hud-goal-label">Goal</span>
             <span class="hud-value" id="hud-goal">FOCUS SESSION</span>
           </div>
         </div>
         <div class="hud-row hud-row-bottom">
           <div class="hud-meta">
-            <span class="hud-label">Mode</span>
+            <span class="hud-label" id="hud-mode-label">Mode</span>
             <span class="hud-value" id="hud-mode">READY</span>
           </div>
           <div class="hud-meta hud-meta-right">
-            <span class="hud-label">Today</span>
+            <span class="hud-label" id="hud-today-label">Today</span>
             <span class="hud-value" id="hud-today">00</span>
           </div>
         </div>

@@ -7,6 +7,7 @@ export class Board {
   constructor(containerEl, soundEngine) {
     this.cols = GRID_COLS;
     this.rows = GRID_ROWS;
+    this.primaryRow = Math.floor(GRID_ROWS / 2);
     this.soundEngine = soundEngine;
     this.isTransitioning = false;
     this.tiles = [];
@@ -21,21 +22,6 @@ export class Board {
 
     this.gridEl = document.createElement('div');
     this.gridEl.className = 'tile-grid';
-
-    for (let r = 0; r < this.rows; r++) {
-      const row = [];
-      const charRow = [];
-      for (let c = 0; c < this.cols; c++) {
-        const tile = new Tile(r, c);
-        tile.el.dataset.row = String(r);
-        tile.setChar(' ');
-        this.gridEl.appendChild(tile.el);
-        row.push(tile);
-        charRow.push(' ');
-      }
-      this.tiles.push(row);
-      this.currentGrid.push(charRow);
-    }
 
     this.boardEl.appendChild(this.gridEl);
 
@@ -59,13 +45,44 @@ export class Board {
     overlay.innerHTML = `
       <div><span>Pause / Resume</span><kbd>Space</kbd></div>
       <div><span>Fullscreen</span><kbd>F</kbd></div>
+      <div><span>Back to Setup</span><kbd>B</kbd></div>
       <div><span>Reset</span><kbd>R</kbd></div>
       <div><span>Sound</span><kbd>M</kbd></div>
     `;
     this.boardEl.appendChild(overlay);
 
+    this.configureGrid(this.cols, this.rows, this.primaryRow);
     containerEl.appendChild(this.boardEl);
     this._updateAccentColors('ready');
+  }
+
+  configureGrid(cols = this.cols, rows = this.rows, primaryRow = Math.floor(rows / 2)) {
+    this.cols = cols;
+    this.rows = rows;
+    this.primaryRow = primaryRow;
+    this.tiles = [];
+    this.currentGrid = [];
+    this.gridEl.textContent = '';
+    this.boardEl.style.setProperty('--grid-cols', this.cols);
+    this.boardEl.style.setProperty('--grid-rows', this.rows);
+
+    for (let r = 0; r < this.rows; r++) {
+      const row = [];
+      const charRow = [];
+      for (let c = 0; c < this.cols; c++) {
+        const tile = new Tile(r, c);
+        tile.el.dataset.row = String(r);
+        if (r === this.primaryRow) {
+          tile.el.classList.add('tile-primary');
+        }
+        tile.setChar(' ');
+        this.gridEl.appendChild(tile.el);
+        row.push(tile);
+        charRow.push(' ');
+      }
+      this.tiles.push(row);
+      this.currentGrid.push(charRow);
+    }
   }
 
   _createAccentBar(extraClass) {

@@ -1,18 +1,26 @@
 .board {
-  --tile-size: clamp(46px, 4.6vw, 72px);
-  --tile-gap: clamp(4px, 0.34vw, 6px);
+  --tile-size: clamp(39px, 2.55vw, 48px);
+  --tile-gap: clamp(3px, 0.24vw, 5px);
 
   position: relative;
-  width: min-content;
+  box-sizing: border-box;
+  width: min(92vw, 1700px);
+  min-height: min(64vh, 740px);
   max-width: 100%;
-  padding: 34px 44px 54px;
-  border-radius: 30px;
+  padding: 38px 48px 58px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background:
-    linear-gradient(180deg, #21201e 0%, #1b1a18 100%);
+    radial-gradient(circle at top, rgba(255, 250, 240, 0.08), transparent 34%),
+    linear-gradient(180deg, #24221f 0%, #1a1917 52%, #151412 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow:
+    0 36px 120px rgba(0, 0, 0, 0.46),
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     inset 0 -1px 0 rgba(0, 0, 0, 0.45),
-    0 28px 80px rgba(0, 0, 0, 0.42);
+    inset 0 0 0 1px rgba(0, 0, 0, 0.22);
   overflow: hidden;
 }
 
@@ -22,27 +30,38 @@
   grid-template-rows: repeat(var(--grid-rows, 5), var(--tile-size));
   gap: var(--tile-gap);
   justify-content: center;
+  align-content: center;
+}
+
+.board::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 18%),
+    radial-gradient(circle at 50% 24%, rgba(255, 236, 195, 0.08), transparent 32%);
+  pointer-events: none;
 }
 
 .accent-bar {
   position: absolute;
-  top: 38px;
+  top: 34px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .accent-bar-left {
-  left: 24px;
+  left: 28px;
 }
 
 .accent-bar-right {
-  right: 24px;
+  right: 28px;
 }
 
 .accent-segment {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 4px;
   background: #bcc4ca;
   box-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
@@ -51,10 +70,10 @@
 
 .keyboard-hint {
   position: absolute;
-  bottom: 18px;
-  left: 20px;
-  width: 34px;
-  height: 34px;
+  bottom: 22px;
+  left: 24px;
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
   display: flex;
   align-items: center;
@@ -109,10 +128,23 @@
   content: '';
   position: absolute;
   left: 50%;
-  bottom: 18px;
+  bottom: 22px;
   transform: translateX(-50%);
-  width: 54px;
+  width: 64px;
   height: 5px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
+}
+
+body.board-active.clock-mode .board {
+  width: 100vw;
+  min-height: 100vh;
+  border-radius: 0;
+  padding: 28px 32px 36px;
+  box-shadow: none;
+}
+
+body.board-active.clock-mode .tile-grid {
+  height: 100%;
+  align-content: center;
 }
