@@ -1,0 +1,116 @@
+<svg width="1440" height="960" viewBox="0 0 1440 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGlow" x1="240" y1="120" x2="1240" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2F241A"/>
+      <stop offset="0.45" stop-color="#15120F"/>
+      <stop offset="1" stop-color="#080808"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#191612"/>
+      <stop offset="1" stop-color="#0E0C0B"/>
+    </linearGradient>
+    <linearGradient id="boardFace" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#25211C"/>
+      <stop offset="1" stop-color="#151210"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="28" flood-color="#000000" flood-opacity="0.38"/>
+    </filter>
+    <filter id="innerGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#D5963C" flood-opacity="0.18"/>
+    </filter>
+    <style>
+      .eyebrow { font: 600 16px 'SF Mono', 'Menlo', monospace; letter-spacing: 0.2em; text-transform: uppercase; }
+      .small { font: 500 15px 'SF Mono', 'Menlo', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+      .label { font: 600 13px 'SF Mono', 'Menlo', monospace; letter-spacing: 0.16em; text-transform: uppercase; }
+      .body { font: 500 17px 'SF Mono', 'Menlo', monospace; }
+      .hero { font: 700 156px 'SF Mono', 'Menlo', monospace; letter-spacing: 0.06em; }
+      .flap { font: 700 70px 'SF Mono', 'Menlo', monospace; letter-spacing: 0.08em; }
+      .metric { font: 700 44px 'SF Mono', 'Menlo', monospace; letter-spacing: 0.05em; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="960" fill="url(#bgGlow)"/>
+  <circle cx="1060" cy="182" r="320" fill="#B56C23" opacity="0.08"/>
+  <circle cx="290" cy="832" r="280" fill="#D9A14E" opacity="0.07"/>
+
+  <rect x="40" y="40" width="1360" height="880" rx="34" fill="url(#panel)" stroke="#3A2D1E" stroke-width="2"/>
+  <rect x="64" y="64" width="1312" height="832" rx="28" fill="#0B0B0A" stroke="#2A2117" stroke-width="1.5"/>
+
+  <text x="112" y="122" class="eyebrow" fill="#E1A74A">Retro Focus Board</text>
+  <text x="1116" y="122" class="eyebrow" fill="#7F6C52">desktop mode</text>
+
+  <rect x="96" y="156" width="882" height="612" rx="26" fill="url(#boardFace)" stroke="#473727" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="1010" y="156" width="334" height="612" rx="26" fill="#11100E" stroke="#3F3225" stroke-width="2" filter="url(#shadow)"/>
+
+  <text x="136" y="212" class="label" fill="#C39143">now</text>
+  <text x="136" y="264" class="metric" fill="#F5E7CF">17:47</text>
+  <text x="315" y="264" class="small" fill="#8C785D">SAT 28 MAR</text>
+
+  <rect x="670" y="196" width="268" height="40" rx="20" fill="#1B1612" stroke="#4A3B2A"/>
+  <circle cx="698" cy="216" r="8" fill="#D5963C"/>
+  <text x="720" y="222" class="small" fill="#E7D4B6">Focus Session 03</text>
+
+  <g filter="url(#innerGlow)">
+    <rect x="136" y="308" width="128" height="170" rx="14" fill="#151311" stroke="#54422F"/>
+    <rect x="277" y="308" width="128" height="170" rx="14" fill="#151311" stroke="#54422F"/>
+    <rect x="418" y="308" width="128" height="170" rx="14" fill="#151311" stroke="#54422F"/>
+    <rect x="559" y="308" width="128" height="170" rx="14" fill="#151311" stroke="#54422F"/>
+    <rect x="700" y="308" width="128" height="170" rx="14" fill="#151311" stroke="#54422F"/>
+  </g>
+  <text x="167" y="416" class="hero" fill="#F5E7CF">2</text>
+  <text x="308" y="416" class="hero" fill="#F5E7CF">4</text>
+  <text x="446" y="416" class="hero" fill="#D5963C">:</text>
+  <text x="585" y="416" class="hero" fill="#F5E7CF">1</text>
+  <text x="726" y="416" class="hero" fill="#F5E7CF">7</text>
+
+  <text x="140" y="540" class="eyebrow" fill="#8C785D">active task</text>
+  <text x="140" y="602" class="flap" fill="#F5E7CF">SHIP LANDING PAGE</text>
+  <text x="140" y="646" class="small" fill="#A38E71">deep work  •  notifications off  •  next break in 24 min</text>
+
+  <text x="140" y="702" class="label" fill="#C39143">session progress</text>
+  <rect x="140" y="724" width="798" height="18" rx="9" fill="#1A1612" stroke="#483727"/>
+  <rect x="146" y="730" width="518" height="6" rx="3" fill="#D5963C"/>
+  <g>
+    <rect x="146" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="188" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="230" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="272" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="314" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="356" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="398" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="440" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="482" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="524" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="566" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="608" y="717" width="36" height="32" rx="7" fill="#D5963C"/>
+    <rect x="650" y="717" width="36" height="32" rx="7" fill="#2A241D" stroke="#57452F"/>
+    <rect x="692" y="717" width="36" height="32" rx="7" fill="#2A241D" stroke="#57452F"/>
+    <rect x="734" y="717" width="36" height="32" rx="7" fill="#2A241D" stroke="#57452F"/>
+    <rect x="776" y="717" width="36" height="32" rx="7" fill="#2A241D" stroke="#57452F"/>
+    <rect x="818" y="717" width="36" height="32" rx="7" fill="#2A241D" stroke="#57452F"/>
+    <rect x="860" y="717" width="36" height="32" rx="7" fill="#2A241D" stroke="#57452F"/>
+    <rect x="902" y="717" width="36" height="32" rx="7" fill="#2A241D" stroke="#57452F"/>
+  </g>
+
+  <text x="1038" y="212" class="label" fill="#C39143">today</text>
+  <text x="1038" y="266" class="metric" fill="#F5E7CF">04</text>
+  <text x="1148" y="266" class="small" fill="#8C785D">pomodoros done</text>
+
+  <text x="1038" y="334" class="label" fill="#C39143">up next</text>
+  <rect x="1038" y="356" width="278" height="70" rx="14" fill="#181512" stroke="#433325"/>
+  <text x="1062" y="398" class="body" fill="#F5E7CF">Review PR comments</text>
+  <rect x="1038" y="438" width="278" height="70" rx="14" fill="#181512" stroke="#433325"/>
+  <text x="1062" y="480" class="body" fill="#D8C6A8">Draft experiment notes</text>
+  <rect x="1038" y="520" width="278" height="70" rx="14" fill="#181512" stroke="#433325"/>
+  <text x="1062" y="562" class="body" fill="#D8C6A8">Inbox cleanup</text>
+
+  <text x="1038" y="640" class="label" fill="#C39143">controls</text>
+  <text x="1038" y="684" class="body" fill="#F5E7CF">Space  start / pause</text>
+  <text x="1038" y="720" class="body" fill="#F5E7CF">N  next mode</text>
+  <text x="1038" y="756" class="body" fill="#F5E7CF">T  add quick task</text>
+
+  <rect x="96" y="796" width="1248" height="72" rx="20" fill="#0F0D0B" stroke="#2D2419"/>
+  <text x="130" y="842" class="small" fill="#D5963C">recommended direction</text>
+  <text x="402" y="842" class="body" fill="#F5E7CF">clock + large timer + segmented progress + active task + short queue + daily count</text>
+</svg>
