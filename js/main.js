@@ -1,14 +1,16 @@
 import { Board } from './Board.js';
 import { SoundEngine } from './SoundEngine.js';
-import { MessageRotator } from './MessageRotator.js';
 import { KeyboardController } from './KeyboardController.js';
+import { loadStoredSettings, saveStoredSettings } from './storage.js';
+import { PomodoroController } from './PomodoroController.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const boardContainer = document.getElementById('board-container');
   const soundEngine = new SoundEngine();
   const board = new Board(boardContainer, soundEngine);
-  const rotator = new MessageRotator(board);
-  const keyboard = new KeyboardController(rotator, soundEngine);
+  const settings = loadStoredSettings();
+  const controller = new PomodoroController({ board, soundEngine, settings });
+  const keyboard = new KeyboardController(controller, soundEngine);
 
   // Initialize audio on first user interaction (browser autoplay policy)
   let audioInitialized = false;
@@ -23,29 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', initAudio);
   document.addEventListener('keydown', initAudio);
 
-  // Start message rotation
-  rotator.start();
+  controller.updateBoard();
 
   // Volume toggle button in header
   const volumeBtn = document.getElementById('volume-btn');
   if (volumeBtn) {
+    volumeBtn.classList.toggle('muted', !settings.soundEnabled);
     volumeBtn.addEventListener('click', () => {
       initAudio();
       const muted = soundEngine.toggleMute();
       volumeBtn.classList.toggle('muted', muted);
-    });
-  }
-
-  // "Get Early Access" button: scroll to board and go fullscreen
-  const ctaBtn = document.getElementById('cta-btn');
-  if (ctaBtn) {
-    ctaBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      initAudio();
-      boardContainer.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => {
-        document.documentElement.requestFullscreen().catch(() => {});
-      }, 400);
+      saveStoredSettings({
+        ...settings,
+        soundEnabled: !muted
+      });
     });
   }
 });
