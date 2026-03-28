@@ -33,7 +33,7 @@
 .tile-front span,
 .tile-back span {
   color: #f7f7f3;
-  font-family: 'Barlow Condensed', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Doto', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
   font-size: calc(var(--tile-size) * 0.54);
   font-weight: 600;
   line-height: 1;

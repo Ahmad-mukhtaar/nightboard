@@ -108,13 +108,17 @@
   }
 }
 
+:fullscreen,
 :fullscreen body,
 :fullscreen .page-frame {
   background: #0d0d0d;
+  height: 100%;
+  overflow: hidden;
 }
 
 :fullscreen .page-frame {
   max-width: none;
+  min-height: 100%;
   padding: 0;
 }
 
@@ -125,12 +129,17 @@
 
 :fullscreen .board-shell {
   display: flex !important;
-  min-height: 100vh;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
   padding: 0;
 }
 
 :fullscreen .board-section {
-  min-height: 100vh;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
   align-items: center;
 }
 
@@ -160,8 +169,9 @@
 }
 
 :fullscreen body.clock-mode .board {
-  width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
   border-radius: 0;
   padding: 28px 32px 36px;
   box-shadow: none;
